@@ -1,0 +1,215 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+@use '@angular/material' as mat;
+
+:root {
+  --app-font-scale: 1;
+  --app-font-family: 'Plus Jakarta Sans', 'Segoe UI', Roboto, system-ui, sans-serif;
+}
+
+html {
+  height: 100%;
+  // Use a larger base font for elderly accessibility (18px instead of 16px)
+  font-size: calc(18px * var(--app-font-scale));
+  scroll-behavior: smooth;
+
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: 'Plus Jakarta Sans',
+    density: 0,
+  ));
+}
+
+body {
+  color-scheme: light;
+  background: #e7edf5;
+  color: #1e293b;
+  font-family: var(--app-font-family);
+  line-height: 1.6;
+  margin: 0;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Accessibility: Focus visible outlines ── */
+*:focus-visible {
+  outline: 3px solid var(--mat-sys-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Accessible selection contrast ── */
+::selection {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+}
+
+/* ── Skip-to-content link (screen readers & keyboard nav) ── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  padding: 12px 24px;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: top 0.2s;
+
+  &:focus {
+    top: 12px;
+  }
+}
+
+html.theme-dark body {
+  color-scheme: dark;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+html.theme-dark .accessibility-controls,
+html.theme-dark .app-footer,
+html.theme-dark .theme-toggle-btn {
+  background: #0f172a;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+html.theme-dark .font-size-btn {
+  background: #111827;
+  color: #bfdbfe;
+  border-color: #475569;
+}
+
+html.theme-dark .font-size-hint {
+  color: #94a3b8;
+}
+
+html.theme-dark .hero__content,
+html.theme-dark .hero__stats,
+html.theme-dark .hero__stats article,
+html.theme-dark .filters-panel,
+html.theme-dark .results-panel,
+html.theme-dark .car-card,
+html.theme-dark .detail-item,
+html.theme-dark .loading-container,
+html.theme-dark .error-container,
+html.theme-dark .no-results {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+html.theme-dark .car-card--expanded {
+  background: #111827;
+  border-color: #3b82f6;
+}
+
+html.theme-dark h1,
+html.theme-dark h2,
+html.theme-dark h3,
+html.theme-dark h4,
+html.theme-dark .detail-value,
+html.theme-dark .btn--ghost,
+html.theme-dark .results-count,
+html.theme-dark .car-card__sub,
+html.theme-dark .detail-label,
+html.theme-dark .pill {
+  color: #f1f5f9;
+}
+
+html.theme-dark .hero__text,
+html.theme-dark .results-count,
+html.theme-dark .car-card__sub,
+html.theme-dark .detail-label,
+html.theme-dark .field span,
+html.theme-dark .field-group > span,
+html.theme-dark .hero__stats p,
+html.theme-dark .no-results,
+html.theme-dark .pill,
+html.theme-dark .checks label,
+html.theme-dark .font-size-hint,
+html.theme-dark .app-footer {
+  color: #94a3b8;
+}
+
+html.theme-dark .eyebrow,
+html.theme-dark .link-btn {
+  color: #93c5fd;
+}
+
+html.theme-dark .btn--primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+html.theme-dark .btn--primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+html.theme-dark .btn--ghost {
+  background: #111827;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+html.theme-dark .btn--ghost:hover:not(:disabled) {
+  background: #1e293b;
+  border-color: #64748b;
+}
+
+html.theme-dark input[type='text'],
+html.theme-dark input[type='number'],
+html.theme-dark select {
+  background: #111827;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+html.theme-dark input::placeholder {
+  color: #64748b;
+}
+
+html.theme-dark .chip {
+  background: #111827;
+  border-color: #475569;
+  color: #cbd5e1;
+}
+
+html.theme-dark .chip--active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+html.theme-dark .pill {
+  background: #111827;
+  border-color: #334155;
+}
+
+html.theme-dark .pill--filter {
+  background: #172554;
+  border-color: #1d4ed8;
+  color: #bfdbfe;
+}
+
+html.theme-dark .car-card:hover {
+  border-color: #475569;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.55);
+}
+
+html.theme-dark .theme-toggle-btn:hover {
+  background: #1e293b;
+  border-color: #64748b;
+}
+
+html.theme-dark .results-scroll {
+  scrollbar-color: #475569 #0b1220;
+}
