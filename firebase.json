@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "predeploy": [
+      "npm run ng -- build"
+    ],
+    "public": "dist/frontend/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
