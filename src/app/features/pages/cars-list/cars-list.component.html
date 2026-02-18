@@ -1,0 +1,264 @@
+@if (loading()) {
+  <div class="page-shell">
+    <div class="loading-container" role="status" aria-label="Loading automobiles">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading automobiles...</p>
+    </div>
+  </div>
+} @else if (error()) {
+  <div class="page-shell">
+    <div class="error-container" role="alert">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <p>{{ error() }}</p>
+    </div>
+  </div>
+} @else {
+  <div class="page-shell">
+    <!-- ═══ Hero Section ═══ -->
+    <section class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">John's Garage </p>
+        <h1> Car  Hub</h1>
+        <p class="hero__text">
+          Built for clarity and comfort: large text, clear controls, and quick filtering
+          so you can browse  cars with confidence.
+        </p>
+        <div class="hero__actions">
+          <button class="btn btn--primary" (click)="openAddCarDialog()" aria-label="Add a new car entry">
+            <mat-icon>add</mat-icon> Add New Car Entry
+          </button>
+          <button class="btn btn--ghost" (click)="exportCsv()" [disabled]="totalItems() === 0" aria-label="Download CSV backup">
+            <mat-icon>download</mat-icon> Download CSV 
+          </button>
+        </div>
+        <div class="status-pills">
+         <span class="pill">{{ allCars().length }} vehicles catalogued</span>
+        </div>
+      </div>
+      <div class="hero__stats">
+        <article>
+          <h2>{{ manufacturerCount() }}</h2>
+          <p>Manufacturers</p>
+        </article>
+        <article>
+          <h2>{{ oldestYear() }}</h2>
+          <p>Oldest model year</p>
+        </article>
+        <article>
+          <h2>{{ newestYear() }}</h2>
+          <p>Newest model year</p>
+        </article>
+        <article>
+          <h2>{{ dataCompleteness() }}%</h2>
+          <p>Data completeness</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══ Workspace: Filters + Results ═══ -->
+    <div class="workspace">
+      <!-- Filters Sidebar -->
+      <aside #filtersPanel class="filters-panel" role="search" aria-label="Filter automobiles">
+        <div class="panel-header">
+          <h3>Filters &amp; Search</h3>
+          @if (activeFilterCount() > 0) {
+            <button class="link-btn" (click)="clearAllFilters()">Reset all</button>
+          }
+        </div>
+
+        <label class="field">
+          <span>Search cars by name, make, model, or year</span>
+          <input
+            type="text"
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            placeholder="mustang"
+          />
+        </label>
+
+        <label class="field">
+          <span>Sort by</span>
+          <select [value]="currentSort()" (change)="onSortOptionChange($event)">
+            <option value="">Default</option>
+            @for (opt of sortOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
+        </label>
+
+        <div class="field-group">
+          <span>Origin</span>
+          <div class="chips">
+            @for (origin of originOptions(); track origin) {
+              <button
+                class="chip"
+                [class.chip--active]="selectedOrigins().includes(origin)"
+                (click)="toggleOrigin(origin)"
+                [attr.aria-pressed]="selectedOrigins().includes(origin)"
+              >{{ origin }}</button>
+            }
+          </div>
+        </div>
+
+        <div class="field-group">
+          <span>Cylinders</span>
+          <div class="checks">
+            @for (cyl of cylinderOptions(); track cyl) {
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="selectedCylinders().includes(cyl)"
+                  (change)="toggleCylinder(cyl)"
+                />
+                {{ cyl }} cylinder{{ cyl !== 1 ? 's' : '' }}
+              </label>
+            }
+          </div>
+        </div>
+
+        <div class="field-group">
+          <span>Year range</span>
+          <div class="range-row">
+            <input
+              type="number"
+              [value]="yearRange()[0]"
+              [min]="yearBounds()[0]"
+              [max]="yearRange()[1]"
+              (change)="onYearMinChange($event)"
+              aria-label="Minimum year"
+            />
+            <input
+              type="number"
+              [value]="yearRange()[1]"
+              [min]="yearRange()[0]"
+              [max]="yearBounds()[1]"
+              (change)="onYearMaxChange($event)"
+              aria-label="Maximum year"
+            />
+          </div>
+        </div>
+
+        <button class="btn btn--primary btn--full apply-btn">Apply Filters</button>
+      </aside>
+
+      <!-- Results Panel -->
+      <section class="results-panel" [style.height.px]="resultsPanelHeight()">
+        <div class="results-header">
+          <div>
+            <h3>Matching Cars</h3>
+            <p class="results-count">
+              Showing {{ paginatedCars().length }} of {{ totalItems() }} total entries
+            </p>
+          </div>
+        </div>
+
+        @if (activeFilterPills().length) {
+          <div class="active-filters">
+            @for (pill of activeFilterPills(); track pill) {
+              <span class="pill pill--filter">{{ pill }}</span>
+            }
+          </div>
+        }
+
+        <div class="results-scroll">
+          @if (paginatedCars().length) {
+            <div class="cards-grid">
+              @for (car of paginatedCars(); track car.id; let i = $index) {
+                @if (!shouldHideCard(i)) {
+                  <article
+                    class="car-card"
+                    [class.car-card--expanded]="isCarExpanded(car.id)"
+                    (click)="toggleCarExpanded(car.id)"
+                  >
+                    <div class="car-card__header">
+                      <div>
+                        <h4>{{ car.name }}</h4>
+                        <p class="car-card__sub">{{ car.origin }} · {{ car.cylinders }} cyl · {{ car.model_year }}</p>
+                      </div>
+
+                      <mat-icon class="car-card__chevron">expand_more</mat-icon>
+                    </div>
+
+                    @if (!isCarExpanded(car.id)) {
+                      <ul class="car-card__quick-stats">
+                        <li><strong>HP:</strong> {{ car.horsepower }}</li>
+                        <li><strong>MPG:</strong> {{ car.mpg }}</li>
+                        <li><strong>Weight:</strong> {{ car.weight }} lbs</li>
+                      </ul>
+                    }
+
+                    @if (isCarExpanded(car.id)) {
+                      <div class="car-card__details">
+                        <div class="car-card__actions">
+                          <button class="btn btn--ghost btn--sm" (click)="openEditCarDialog(car, $event)">
+                            <mat-icon>edit</mat-icon>
+                            Edit
+                          </button>
+                          <button
+                            class="btn btn--danger btn--sm"
+                            [disabled]="isDeletingCar(car.id)"
+                            (click)="deleteCar(car, $event)"
+                          >
+                            <mat-icon>delete</mat-icon>
+                            {{ isDeletingCar(car.id) ? 'Deleting...' : 'Delete' }}
+                          </button>
+                        </div>
+
+                        <div class="detail-grid">
+                          <div class="detail-item">
+                            <span class="detail-label">Horsepower</span>
+                            <span class="detail-value">{{ car.horsepower }}</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">MPG</span>
+                            <span class="detail-value">{{ car.mpg }}</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">Cylinders</span>
+                            <span class="detail-value">{{ car.cylinders }}</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">Displacement</span>
+                            <span class="detail-value">{{ car.displacement }} cc</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">Weight</span>
+                            <span class="detail-value">{{ car.weight }} lbs</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">Acceleration</span>
+                            <span class="detail-value">{{ car.acceleration }} sec</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">Model Year</span>
+                            <span class="detail-value">{{ car.model_year }}</span>
+                          </div>
+                          <div class="detail-item">
+                            <span class="detail-label">Origin</span>
+                            <span class="detail-value">{{ car.origin }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </article>
+                }
+              }
+            </div>
+
+            <app-cars-pagination
+              [totalItems]="totalItems()"
+              [pageSize]="pageSize()"
+              [pageIndex]="pageIndex()"
+              (page)="onPageChange($event)"
+            ></app-cars-pagination>
+          } @else {
+            <div class="no-results">
+              <mat-icon>search_off</mat-icon>
+              <p>No cars match your current filters. Try adjusting your search criteria.</p>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+}

@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.auth-shell {
+  min-height: calc(100vh - 120px);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.auth-card {
+  width: min(460px, 100%);
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0;
+}
+
+.auth-subtitle {
+  margin: 0.5rem 0 1rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.auth-error {
+  margin: 0;
+  color: var(--mat-sys-error);
+}
+
+button[mat-flat-button] {
+  min-height: 44px;
+}
+
+.auth-link-row {
+  margin: 1rem 0 0;
+}

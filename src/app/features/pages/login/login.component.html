@@ -1,0 +1,35 @@
+<section class="auth-shell" aria-labelledby="login-title">
+  <mat-card class="auth-card">
+    <h1 id="login-title">Sign in</h1>
+    <p class="auth-subtitle">Log in to access your cars dashboard.</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password" />
+      </mat-form-field>
+
+      @if (submitError()) {
+        <p class="auth-error" role="alert">{{ submitError() }}</p>
+      }
+
+      <button mat-flat-button type="submit" [disabled]="submitting()">
+        @if (submitting()) {
+          <mat-spinner diameter="18"></mat-spinner>
+        } @else {
+          Sign in
+        }
+      </button>
+    </form>
+
+    <p class="auth-link-row">
+      New account?
+      <a [routerLink]="['/register']" [queryParams]="{ returnUrl }">Create one</a>
+    </p>
+  </mat-card>
+</section>

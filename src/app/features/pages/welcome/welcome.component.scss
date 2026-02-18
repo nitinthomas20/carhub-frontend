@@ -1,0 +1,206 @@
+$fs: var(--app-font-scale, 1);
+
+:host {
+  display: block;
+}
+
+.welcome-shell {
+  min-height: calc(100vh - 52px);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.welcome-card {
+  width: min(860px, 100%);
+  background: linear-gradient(160deg, #f8fbff 0%, #eef4fc 100%);
+  border: 1px solid #d5dfeb;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.09);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-orb {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.28), rgba(37, 99, 235, 0) 70%);
+  right: -80px;
+  top: -80px;
+  pointer-events: none;
+}
+
+.welcome-eyebrow {
+  margin: 0 0 0.6rem;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: calc(0.78rem * #{$fs});
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+.welcome-text {
+  margin: 1rem 0;
+  color: #334155;
+  font-size: calc(0.96rem * #{$fs});
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.welcome-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+
+  span {
+    background: #eef4ff;
+    border: 1px solid #c6d6ee;
+    color: #1e40af;
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    font-size: calc(0.78rem * #{$fs});
+    font-weight: 700;
+  }
+}
+
+.welcome-grid {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.feature {
+  background: #ffffff;
+  border: 1px solid #d5dfeb;
+  border-radius: 14px;
+  padding: 0.85rem 0.9rem;
+
+  h3 {
+    margin: 0;
+    font-size: calc(0.9rem * #{$fs});
+    color: #0f172a;
+  }
+
+  p {
+    margin: 0.45rem 0 0;
+    font-size: calc(0.82rem * #{$fs});
+    color: #475569;
+    line-height: 1.45;
+  }
+}
+
+.welcome-btn {
+  margin-top: 1.25rem;
+  border: 0;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: calc(0.92rem * #{$fs});
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+}
+
+@media (max-width: 900px) {
+  .welcome-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-card {
+    padding: 1.4rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .welcome-shell {
+    padding: 0.5rem;
+  }
+
+  .welcome-card {
+    border-radius: 16px;
+    padding: 1rem;
+  }
+
+  .welcome-orb {
+    width: 190px;
+    height: 190px;
+    right: -80px;
+    top: -80px;
+  }
+
+  .welcome-chips {
+    gap: 0.4rem;
+
+    span {
+      font-size: calc(0.74rem * #{$fs});
+      padding: 0.28rem 0.6rem;
+    }
+  }
+
+  .welcome-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+:host-context(.theme-dark) {
+  .welcome-card {
+    background: linear-gradient(165deg, #0f172a 0%, #111827 100%);
+    border-color: #334155;
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.62);
+  }
+
+  .welcome-orb {
+    background: radial-gradient(circle at 30% 30%, rgba(96, 165, 250, 0.28), rgba(96, 165, 250, 0) 70%);
+  }
+
+  h1 {
+    color: #f8fafc;
+  }
+
+  .welcome-text {
+    color: #cbd5e1;
+  }
+
+  .welcome-points {
+    color: #94a3b8;
+  }
+
+  .welcome-eyebrow {
+    color: #93c5fd;
+  }
+
+  .welcome-chips span {
+    background: #172554;
+    border-color: #1d4ed8;
+    color: #bfdbfe;
+  }
+
+  .feature {
+    background: #111827;
+    border-color: #334155;
+
+    h3 {
+      color: #f1f5f9;
+    }
+
+    p {
+      color: #94a3b8;
+    }
+  }
+}
