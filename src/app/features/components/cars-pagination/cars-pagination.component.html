@@ -1,0 +1,9 @@
+<mat-paginator
+  [length]="totalItems()"
+  [pageSize]="pageSize()"
+  [pageIndex]="pageIndex()"
+  [pageSizeOptions]="[10, 20, 50, 100]"
+  showFirstLastButtons
+  (page)="onPage($event)"
+  aria-label="Select page of automobiles">
+</mat-paginator>

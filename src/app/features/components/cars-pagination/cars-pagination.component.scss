@@ -1,0 +1,28 @@
+$fs: var(--app-font-scale, 1);
+
+:host {
+  display: block;
+  margin-top: 8px;
+  font-size: calc(0.95rem * #{$fs});
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 600px) {
+  :host ::ng-deep {
+    .mat-mdc-paginator-container {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 8px 4px;
+      gap: 4px;
+    }
+
+    .mat-mdc-paginator-range-label {
+      margin: 0 8px;
+      font-size: calc(0.8rem * #{$fs});
+    }
+
+    .mat-mdc-paginator-page-size-label {
+      font-size: calc(0.8rem * #{$fs});
+    }
+  }
+}

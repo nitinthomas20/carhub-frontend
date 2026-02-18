@@ -1,0 +1,143 @@
+/* ══════════════════════════════════════════
+   Cars Table — Clean Light Redesign
+   ══════════════════════════════════════════ */
+$fs: var(--app-font-scale, 1);
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cars-mat-table {
+  width: 100%;
+
+  /* Header row */
+  .mat-mdc-header-row {
+    background: #f8fafc;
+  }
+
+  .mat-mdc-header-cell {
+    font-weight: 700;
+    font-size: calc(0.78rem * #{$fs});
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    padding: 12px 14px;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+  }
+
+  /* Data cells */
+  .mat-mdc-cell {
+    font-size: calc(0.92rem * #{$fs});
+    padding: 10px 14px;
+    line-height: 1.5;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+    border-right: 1px solid #f1f5f9;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+/* Numeric columns — right-aligned, tabular numbers */
+.col-num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Name column — semi-bold, capitalized for prominence */
+.col-name {
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: capitalize;
+  color: #0f172a;
+}
+
+/* Row interaction */
+.car-row {
+  transition: background-color 0.12s ease;
+
+  /* Zebra striping */
+  &:nth-child(even) {
+    background-color: #fafbfc;
+  }
+
+  &:hover {
+    background-color: #f1f5f9 !important;
+  }
+}
+
+/* Origin — all caps */
+.origin-chip {
+  display: inline-block;
+  font-size: calc(0.8rem * #{$fs});
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  color: #64748b;
+}
+
+/* Empty state */
+.no-data-row td {
+  text-align: center;
+  padding: 56px 16px;
+  color: #94a3b8;
+  font-size: calc(0.95rem * #{$fs});
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 960px) {
+  .cars-mat-table {
+    .mat-mdc-header-cell {
+      padding: 10px 10px;
+      font-size: calc(0.72rem * #{$fs});
+    }
+
+    .mat-mdc-cell {
+      padding: 9px 10px;
+      font-size: calc(0.85rem * #{$fs});
+    }
+  }
+}
+
+/* ── Responsive: Mobile — scroll with shadow hints ── */
+@media (max-width: 600px) {
+  .table-wrapper {
+    background:
+      linear-gradient(to right, #fff 30%, transparent),
+      linear-gradient(to left, #fff 30%, transparent),
+      linear-gradient(to right, rgba(0, 0, 0, 0.06), transparent 40%),
+      linear-gradient(to left, rgba(0, 0, 0, 0.06), transparent 40%);
+    background-position: left, right, left, right;
+    background-size: 30px 100%, 30px 100%, 15px 100%, 15px 100%;
+    background-repeat: no-repeat;
+    background-attachment: local, local, scroll, scroll;
+  }
+
+  .cars-mat-table {
+    min-width: 680px;
+
+    .mat-mdc-header-cell {
+      padding: 8px 8px;
+      font-size: calc(0.68rem * #{$fs});
+    }
+
+    .mat-mdc-cell {
+      padding: 8px 8px;
+      font-size: calc(0.8rem * #{$fs});
+    }
+  }
+
+  .origin-chip {
+    padding: 2px 8px;
+    font-size: calc(0.72rem * #{$fs});
+  }
+
+  .no-data-row td {
+    padding: 36px 12px;
+  }
+}

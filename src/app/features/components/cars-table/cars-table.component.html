@@ -1,0 +1,70 @@
+<div class="table-wrapper" role="region" aria-label="Automobiles data table" tabindex="0">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)" class="cars-mat-table">
+
+    <!-- Name -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let car" class="col-name">{{ car.name }}</td>
+    </ng-container>
+
+    <!-- MPG -->
+    <ng-container matColumnDef="mpg">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">MPG</th>
+      <td mat-cell *matCellDef="let car" class="col-num">{{ car.mpg }}</td>
+    </ng-container>
+
+    <!-- Cylinders -->
+    <ng-container matColumnDef="cylinders">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">Cyl</th>
+      <td mat-cell *matCellDef="let car" class="col-num">{{ car.cylinders }}</td>
+    </ng-container>
+
+    <!-- Displacement -->
+    <ng-container matColumnDef="displacement">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">Displ.</th>
+      <td mat-cell *matCellDef="let car" class="col-num">{{ car.displacement | number }}</td>
+    </ng-container>
+
+    <!-- Horsepower -->
+    <ng-container matColumnDef="horsepower">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">HP</th>
+      <td mat-cell *matCellDef="let car" class="col-num">{{ car.horsepower }}</td>
+    </ng-container>
+
+    <!-- Weight -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">Weight</th>
+      <td mat-cell *matCellDef="let car" class="col-num">{{ car.weight | number }}</td>
+    </ng-container>
+
+    <!-- Acceleration -->
+    <ng-container matColumnDef="acceleration">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">Accel</th>
+      <td mat-cell *matCellDef="let car" class="col-num">{{ car.acceleration }}</td>
+    </ng-container>
+
+    <!-- Model Year -->
+    <ng-container matColumnDef="model_year">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num">Year</th>
+      <td mat-cell *matCellDef="let car" class="col-num">'{{ car.model_year }}</td>
+    </ng-container>
+
+    <!-- Origin -->
+    <ng-container matColumnDef="origin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Origin</th>
+      <td mat-cell *matCellDef="let car">
+        <span class="origin-chip" [attr.data-origin]="car.origin">{{ car.origin }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="car-row"></tr>
+
+    <!-- No data row -->
+    <tr class="mat-row no-data-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        No automobiles match your filters.
+      </td>
+    </tr>
+  </table>
+</div>

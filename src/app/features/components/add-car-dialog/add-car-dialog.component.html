@@ -1,0 +1,139 @@
+<h2 mat-dialog-title>Add New Automobile</h2>
+
+<mat-dialog-content>
+  @if (submitError()) {
+    <div class="error-banner" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      {{ submitError() }}
+    </div>
+  }
+
+  <form [formGroup]="form" id="add-car-form" (ngSubmit)="onSubmit()">
+    <!-- Name (full width) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g. Ford Mustang" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+      } @else if (form.controls.name.hasError('minlength')) {
+        <mat-error>Name must be at least 2 characters</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="form-row">
+      <!-- MPG -->
+      <mat-form-field appearance="outline">
+        <mat-label>MPG</mat-label>
+        <input matInput type="number" formControlName="mpg" />
+        @if (form.controls.mpg.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.mpg.hasError('min') || form.controls.mpg.hasError('max')) {
+          <mat-error>0–100</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Cylinders -->
+      <mat-form-field appearance="outline">
+        <mat-label>Cylinders</mat-label>
+        <input matInput type="number" formControlName="cylinders" />
+        @if (form.controls.cylinders.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.cylinders.hasError('min') || form.controls.cylinders.hasError('max')) {
+          <mat-error>1–16</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Displacement -->
+      <mat-form-field appearance="outline">
+        <mat-label>Displacement</mat-label>
+        <input matInput type="number" formControlName="displacement" />
+        @if (form.controls.displacement.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.displacement.hasError('min') || form.controls.displacement.hasError('max')) {
+          <mat-error>0–1000</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- Horsepower -->
+      <mat-form-field appearance="outline">
+        <mat-label>Horsepower</mat-label>
+        <input matInput type="number" formControlName="horsepower" />
+        @if (form.controls.horsepower.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.horsepower.hasError('min') || form.controls.horsepower.hasError('max')) {
+          <mat-error>0–1000</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Weight -->
+      <mat-form-field appearance="outline">
+        <mat-label>Weight</mat-label>
+        <input matInput type="number" formControlName="weight" />
+        @if (form.controls.weight.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.weight.hasError('min') || form.controls.weight.hasError('max')) {
+          <mat-error>0–10000</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Acceleration -->
+      <mat-form-field appearance="outline">
+        <mat-label>Acceleration</mat-label>
+        <input matInput type="number" formControlName="acceleration" />
+        @if (form.controls.acceleration.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.acceleration.hasError('min') || form.controls.acceleration.hasError('max')) {
+          <mat-error>0–50</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- Model Year -->
+      <mat-form-field appearance="outline">
+        <mat-label>Model Year</mat-label>
+        <input matInput type="number" formControlName="model_year" />
+        @if (form.controls.model_year.hasError('required')) {
+          <mat-error>Required</mat-error>
+        } @else if (form.controls.model_year.hasError('min') || form.controls.model_year.hasError('max')) {
+          <mat-error>70–99</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Origin -->
+      <mat-form-field appearance="outline">
+        <mat-label>Origin</mat-label>
+        <mat-select formControlName="origin">
+          @for (opt of originOptions; track opt) {
+            <mat-option [value]="opt">{{ opt }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.origin.hasError('required')) {
+          <mat-error>Required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="submitting()">Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    form="add-car-form"
+    [disabled]="submitting()"
+  >
+    @if (submitting()) {
+      <mat-spinner diameter="20" class="btn-spinner"></mat-spinner>
+    } @else {
+      <ng-container>
+        <mat-icon>add</mat-icon>
+        Add Car
+      </ng-container>
+    }
+  </button>
+</mat-dialog-actions>
