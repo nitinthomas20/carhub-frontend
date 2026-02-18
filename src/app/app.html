@@ -1,0 +1,36 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="accessibility-controls" role="region" aria-label="Display settings">
+  <button
+    class="font-size-btn"
+    type="button"
+    (click)="cycleFontSize()"
+    aria-label="Change text size"
+  >
+    <span>Text size: {{ fontLabel() }}</span>
+    <span class="font-size-hint">Tap to change text size</span>
+  </button>
+</div>
+
+<button
+  class="theme-toggle-btn"
+  type="button"
+  [attr.aria-label]="themeButtonLabel()"
+  [title]="themeButtonLabel()"
+  (click)="toggleThemeMode()"
+>
+  <span aria-hidden="true">{{ themeIcon() }}</span>
+</button>
+
+<main class="app-content" id="main-content" tabindex="-1">
+  <router-outlet />
+</main>
+
+<footer class="app-footer" role="contentinfo">
+  <span>Firehawk Auto &copy; 2026 — Built for car enthusiasts</span>
+  @if (isAuthenticated()) {
+    <button class="footer-signout" type="button" (click)="logout()" aria-label="Sign out">
+      Sign out
+    </button>
+  }
+</footer>
