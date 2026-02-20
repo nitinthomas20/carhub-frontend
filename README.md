@@ -1,59 +1,102 @@
-# Frontend
+# CarHub Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+A single-page Angular application for managing an automobile catalog. Users can register, log in, and perform CRUD operations on car records through a paginated, Material-styled table.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- **Framework** — Angular 21 (standalone components, lazy-loaded routes)
+- **UI** — Angular Material & Angular CDK
+- **HTTP** — Angular `HttpClient` with a JWT auth interceptor
+- **Testing** — Vitest + Angular testing utilities
+- **Hosting** — Firebase Hosting
+- **Backend API** — REST service on Google Cloud Run
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── core/              # Firebase initialisation
+│   ├── features/
+│   │   ├── components/    # Reusable UI (add/edit dialogs, table, pagination)
+│   │   ├── models/        # Automobile TypeScript interfaces
+│   │   ├── pages/         # Route-level pages (login, register, welcome, cars-list)
+│   │   └── services/      # API & auth services
+│   ├── layout/            # App shell / layout components
+│   └── shared/            # Guards & interceptors
+├── environments/          # Environment configs (dev / prod)
+└── styles.scss            # Global styles
+```
+
+## Prerequisites
+
+- **Node.js** ≥ 18
+- **npm** ≥ 10
+- **Angular CLI** (`npm i -g @angular/cli`)
+- **Firebase CLI** (`npm i -g firebase-tools`) — for deployment only
+
+## Getting Started
 
 ```bash
+# Install dependencies
+npm install
+
+# Start the dev server (http://localhost:4200)
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Available Scripts
 
-## Code scaffolding
+| Script | Command | Description |
+|--------|---------|-------------|
+| `npm start` | `ng serve` | Start the development server |
+| `npm run build` | `ng test --watch=false && ng build` | Run tests then produce a production build |
+| `npm test` | `ng test` | Run unit tests with Vitest |
+| `npm run watch` | `ng build --watch` | Build in watch mode for development |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Environment Configuration
+
+Environment files live in `src/environments/`:
+
+| File | Purpose |
+|------|---------|
+| `environment.ts` | Development defaults |
+| `environment.prod.ts` | Production settings (used by `ng build`) |
+
+Key properties:
+
+- `apiBaseUrl` — Base URL for the automobiles REST API
+- `production` — Boolean flag for production mode
+
+## Deployment
+
+The app is deployed to **Firebase Hosting**:
 
 ```bash
-ng generate component component-name
+firebase deploy
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+This runs `ng build` as a predeploy step and publishes `dist/frontend/browser`.
+
+## Running Tests
 
 ```bash
-ng generate --help
-```
+# Single run
+ng test --watch=false
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
+# Watch mode
 ng test
 ```
 
-## Running end-to-end tests
+## Routes
 
-For end-to-end (e2e) testing, run:
+| Path | Access | Description |
+|------|--------|-------------|
+| `/login` | Guests only | Sign in with email/password |
+| `/register` | Guests only | Create a new account |
+| `/welcome` | First-time visitors | Onboarding / welcome page |
+| `/cars` | Authenticated | Paginated car catalog with add, edit, and delete |
 
-```bash
-ng e2e
-```
+## License
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is private and not published under an open-source license.
