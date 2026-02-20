@@ -3,10 +3,11 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient } from '@angular/common/http';
 import { CarsApiService } from './cars-api.service';
 import { Automobile, CreateAutomobilePayload } from '../models/automobile.model';
+import { environment } from '../../../environments/environment';
 
 const API_BASE_URL =
   (globalThis as { FIREHAWK_TEST_API_BASE_URL?: string }).FIREHAWK_TEST_API_BASE_URL ??
-  'http://localhost:3000/api';
+  environment.apiBaseUrl;
 const AUTOMOBILES_ENDPOINT = `${API_BASE_URL}/v1/automobiles`;
 
 describe('CarsApiService', () => {
