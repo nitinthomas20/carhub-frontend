@@ -52,6 +52,9 @@ jobs:
           name: dist
           path: dist/frontend/browser
 
+      - name: Strip predeploy to skip rebuild
+        run: node -e "const f='firebase.json';const c=JSON.parse(require('fs').readFileSync(f));delete c.hosting.predeploy;require('fs').writeFileSync(f,JSON.stringify(c,null,2));"
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
